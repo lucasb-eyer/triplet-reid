@@ -11,7 +11,7 @@ class Excluder:
     """
     def __init__(self, gallery_fids):
         # Setup a regexp for extracing the PID and camera (CID) form a FID.
-        self.regexp = re.compile('(\S+)_c(\d+)s(\d+)_.*')
+        self.regexp = re.compile('(\S+)_c(\d+).*')
 
         # Parse the gallery_set
         self.gallery_pids, self.gallery_cids = self._parse(gallery_fids)
@@ -37,7 +37,7 @@ class Excluder:
         cids = []
         for fid in fids:
             filename = os.path.splitext(os.path.basename(fid))[0]
-            pid, cid, _ = self.regexp.match(filename).groups()
+            pid, cid = self.regexp.match(filename).groups()
             pids.append(pid)
             cids.append(cid)
         return np.asarray(pids), np.asarray(cids)
